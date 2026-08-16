@@ -1,0 +1,39 @@
+# EnCodec Latent Sensitivity Pipeline — dependencies
+# Install with: pip install -r requirements.txt
+
+# Audio I/O
+soundfile>=0.12.0
+numpy>=1.24.0
+scipy>=1.10.0
+
+# Deep learning (EnCodec)
+torch>=2.0.0
+torchaudio>=2.0.0
+
+# EnCodec (Facebook Research)
+# If using the official model: pip install encodec
+encodec>=0.1.1
+einops>=0.4.0
+
+# Visualization & Data Analysis
+matplotlib>=3.7.0
+pandas>=1.5.0
+plotly<6
+tqdm>=4.66.0
+
+# PDF export (for analyze_token_flips.py)
+kaleido>=0.2.1
+
+# HEAR benchmark evaluation (for semantic evaluation pipeline)
+heareval>=2021.0.0
+
+# AudibleLight scene generation (for DOA offsets)
+librosa==0.11.0
+
+# Official external codec integrations used by tok_analysis/benchmark_codecs.py
+git+https://github.com/haoheliu/SemantiCodec-inference.git
+git+https://github.com/descriptinc/descript-audio-codec.git
+
+# Optional: Jupyter (only needed to run the .ipynb notebook interactively)
+# jupyter>=1.0.0
+# ipywidgets>=8.0.0

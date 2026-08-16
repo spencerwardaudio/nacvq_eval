@@ -1,0 +1,12 @@
+[submodule "Q2D2"]
+	path = Q2D2
+	url = git@github.com:spencerwardaudio/Q2D2_st.git
+[submodule "SpeechTokenizer"]
+	path = SpeechTokenizer
+	url = git@github.com:spencerwardaudio/SpeechTokenizer_st.git
+[submodule "hificodec"]
+	path = hificodec
+	url = git@github.com:spencerwardaudio/hificodec_st.git
+[submodule "descript-audio-codec"]
+	path = descript-audio-codec
+	url = git@github.com:spencerwardaudio/descript-audio-codec_st.git

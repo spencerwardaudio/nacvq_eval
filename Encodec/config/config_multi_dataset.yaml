@@ -1,0 +1,97 @@
+common:
+  save_interval: 5
+  val_interval: 5
+  log_interval: 50
+  max_epoch: 50  # Changed from 100 to 50 for consistency
+  seed: 3401
+  amp: False  # Must be False: model uses balancer (non-AMP path); amp=True bypasses balancer and hits fp16 zero-denominator NaN in l_feat
+
+datasets:
+  # Multi-dataset configuration
+  jamendo_train_csv: ''
+  jamendo_valid_csv: ''
+  jamendo_test_csv: ''
+  
+  common_voice_train_csv: ''
+  common_voice_valid_csv: ''
+  common_voice_test_csv: ''
+
+  fsd50k_train_csv: '/home/jovyan/teaching_material/MSC_Project_SW/msc_proj/datasets/fsd50k_train.csv'
+  fsd50k_valid_csv: '/home/jovyan/teaching_material/MSC_Project_SW/msc_proj/datasets/fsd50k_val.csv'
+  fsd50k_test_csv: '/home/jovyan/teaching_material/MSC_Project_SW/msc_proj/datasets/fsd50k_test.csv'
+
+  dns_challenge4_train_csv: ''
+  dns_challenge4_valid_csv: ''
+  dns_challenge4_test_csv: ''
+  
+  batch_size: 12
+  tensor_cut: 72000  # 3 seconds at 24kHz
+  num_workers: 12
+  fixed_length: 12000  # Legacy fallback for train set sizing if n_train_examples is not set
+  n_train_examples: null
+  n_val_segments: 10000
+  n_test_segments: 1000
+  segment_duration_samples: 72000  # 3 seconds at 24kHz; decoupled from sample counts
+  pin_memory: True
+
+checkpoint:
+  resume: False
+  checkpoint_path: ''
+  disc_checkpoint_path: ''
+  save_folder: './checkpoints_multi_dataset/'
+  save_location: '${checkpoint.save_folder}/bs${datasets.batch_size}_cut${datasets.tensor_cut}_length${datasets.fixed_length}_' 
+
+optimization:
+  lr: 3e-4
+  disc_lr: 3e-4
+
+lr_scheduler:
+  warmup_epoch: 5
+
+model:
+  target_bandwidths: [24.]
+  sample_rate: 24_000
+  channels: 1  # FOA: 4 channels (W, Y, Z, X in ambiX)
+  train_discriminator: True
+  audio_normalize: True
+  filters: 32
+  ratios: [8, 5, 4, 2]
+  disc_win_lengths: [2048, 1024, 512, 256, 128]
+  disc_hop_lengths: [512, 256, 128, 64, 32]
+  disc_n_ffts: [2048, 1024, 512, 256, 128]
+  causal: True
+  norm: 'weight_norm'
+  segment: None
+  name: 'Encodec'
+  use_q2d2: False
+  q2d2_grid: 'rhombic'
+  q2d2_levels: 11
+
+# I-JEPA configuration
+ijepa:
+  enabled: false
+
+
+distributed:
+  data_parallel: True
+  world_size: 1
+  find_unused_parameters: False
+  torch_distributed_debug: False
+  init_method: tcp
+
+balancer:
+  weights:
+    l_t: 0.1
+    l_f: 1
+    l_g: 3
+    l_feat: 3
+
+# I-JEPA loss weight (handled separately from balancer since it
+# operates on encoder embeddings, not decoder output)
+ijepa_loss_weight: 1.0
+
+# Weights & Biases configuration
+wandb:
+  enabled: True
+  project: 'codec-fsd50k-scale'
+  name: 'encodec-rvq32-bs${datasets.batch_size}-ep${common.max_epoch}'

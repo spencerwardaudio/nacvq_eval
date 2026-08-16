@@ -1,0 +1,38 @@
+# Virtual environments
+.venv/
+
+# Python cache
+**/__pycache__/
+**/*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Model checkpoints
+**/*.pt
+**/*.pth
+
+#asset images
+*.jpg
+
+# Large data
+datasets/
+
+# Generated Encodec artifacts
+**/*.ecdc
+**/*.npy
+
+# Notebook-generated data
+**/notebooks/Audio_Test_Files/
+**/notebooks/encodec_sensitivity_recordings/
+
+# Nested git backups (from migration)
+**/.git_backup/
+
+# Local external codec checkouts used by benchmark setup scripts
+.external/
+
+# Generated results, logs, and analysis outputs — not for public repo
+results/
+logs/
+semantic_res/**/.DS_Store

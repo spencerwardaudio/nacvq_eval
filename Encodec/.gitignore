@@ -1,0 +1,18 @@
+# Virtual Environment
+venv_encodec/
+Lib/site-packages/
+pyvenv.cfg
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Audio Files
+*.ecdc
+*.wav
+
+*.pt
+*.pth
+*.ckpt
+checkpoints_*/

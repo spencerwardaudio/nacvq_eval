@@ -1,0 +1,101 @@
+# Consolidated requirements for all 5 codec models + analysis
+# Usage: 
+#   python3 -m venv .venv
+#   source .venv/bin/activate
+#   pip install torch==2.4.0 torchaudio==2.4.0 --index-url https://download.pytorch.org/whl/cu124
+#   pip install -r requirements.txt
+#   pip install -e ./SpeechTokenizer
+#
+# Or with uv (faster, recommended):
+#   python3 -m venv .venv
+#   source .venv/bin/activate
+#   pip install uv
+#   uv pip install torch==2.4.0 torchaudio==2.4.0 --index-url https://download.pytorch.org/whl/cu124
+#   uv pip install -r requirements.txt
+#   uv pip install -e ./SpeechTokenizer
+#
+# Or use the automated script:
+#   bash setup_env.sh
+
+# ============================================================================
+# Core Deep Learning (common across all models)
+# ============================================================================
+# NOTE: PyTorch 2.4.0 with CUDA 12.4 support must be installed via special index:
+#   uv pip install torch==2.4.0 torchaudio==2.4.0 --index-url https://download.pytorch.org/whl/cu124
+# This is handled automatically by setup_env.sh
+torch==2.4.0
+torchaudio==2.4.0
+numpy>=1.23.5,<2.0.0  # CRITICAL: Some codecs incompatible with NumPy 2.x
+scipy>=1.10.0
+einops>=0.6.1
+setuptools>=65.0.0,<70.0.0  # CRITICAL: pkg_resources removed in setuptools 70+
+
+# ============================================================================
+# Training & Logging
+# ============================================================================
+pytorch-lightning==1.8.6
+accelerate>=0.20.0
+wandb>=0.12.0
+tensorboard>=2.7.0
+tensorboardX>=2.6
+tqdm>=4.60.0
+
+# ============================================================================
+# Configuration & CLI
+# ============================================================================
+hydra-core>=1.1.0
+omegaconf>=2.1.0
+pyyaml>=6.0
+jsonargparse[signatures]>=4.15.2
+
+# ============================================================================
+# Audio Processing
+# ============================================================================
+soundfile>=0.12.0
+librosa>=0.9.0
+descript-audiotools>=0.7.2
+
+# ============================================================================
+# Model-Specific Dependencies
+# ============================================================================
+
+# Q2D2
+huggingface_hub>=0.23.0
+transformers>=4.28.1
+torchcrepe
+einx
+
+# Encodec
+encodec==0.1.1
+
+# DAC-FSQ
+argbind>=0.3.7
+vector-quantize-pytorch>=1.0.0
+numba>=0.5.7
+
+# SpeechTokenizer (install via: pip install -e ./SpeechTokenizer)
+lion_pytorch
+beartype  # Required by SpeechTokenizer trainer
+
+# ============================================================================
+# Audio Metrics & Evaluation
+# ============================================================================
+pystoi>=0.3.3
+pesq>=0.0.4
+
+# ============================================================================
+# Analysis & Visualization (from tok_analysis/requirements.txt)
+# ============================================================================
+pandas>=1.5.0
+matplotlib>=3.7.0
+plotly<6
+kaleido>=0.2.1
+
+# HEAR benchmark evaluation (for semantic evaluation pipeline)
+heareval>=2021.0.0
+
+# ============================================================================
+# Optional: Jupyter (for analysis notebooks)
+# ============================================================================
+jupyterlab
+ipywidgets>=8.0.0
